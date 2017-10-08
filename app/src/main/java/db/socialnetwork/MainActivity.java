@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.pwd);
         String upwd = password.getText().toString();
         if(uname.equals("")||upwd.equals("")){
-            Toast.makeText(getApplicationContext(), "Fill all fields", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please fill all the fields", Toast.LENGTH_LONG).show();
             return;
         }
         Log.v("UserName",uname);
