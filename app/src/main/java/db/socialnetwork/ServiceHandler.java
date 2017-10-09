@@ -23,9 +23,6 @@ public class ServiceHandler {
         JSONObject params=new JSONObject();
         params.put("id",uname);
         params.put("password",pwd);
-        return makeServiceCall(params,url);
-    }
-    public String makeServiceCall(JSONObject params, String url)throws Exception{
         URL site = new URL(url);
         HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
         urlConnection.setRequestMethod("POST");
@@ -37,6 +34,26 @@ public class ServiceHandler {
         writer.flush();
         writer.close();
         out.close();
+        return makeServiceCall(urlConnection);
+    }
+
+    public String seePosts(String url)throws Exception{
+        URL site = new URL(url);
+        HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
+        urlConnection.setRequestMethod("GET");
+        urlConnection.setDoOutput(true);
+        return makeServiceCall(urlConnection);
+    }
+
+    public String logout(String url)throws Exception{
+        URL site = new URL(url);
+        HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setDoOutput(true);
+        return makeServiceCall(urlConnection);
+    }
+
+    public String makeServiceCall(HttpURLConnection urlConnection)throws Exception{
         urlConnection.connect();
         int response = urlConnection.getResponseCode();
         if(response== HttpURLConnection.HTTP_OK){

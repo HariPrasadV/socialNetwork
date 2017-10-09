@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         CookieHandler.setDefault(cookieManager);
         SharedPreferences s = (getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE);
         if (s.getString("id",null)!=null){
+            Log.v("ID : ",s.getString("id",null));
             Intent nextScreen = new Intent(getApplicationContext(),Main2Activity.class);
             nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(nextScreen);
