@@ -18,7 +18,8 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 
 public class MainActivity extends AppCompatActivity {
-
+    //public static final String BaseURL = "http://192.168.0.102:8080/SocialBackend";
+    public static final String BaseURL = "http://192.168.0.101:8080/Backend";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected String doInBackground(String... arg) {
-            String url = "http://192.168.0.102:8080/SocialBackend/Login";
+            String url = BaseURL+"/Login";
             String uname = arg[0];
             String pwd = arg[1];
             ServiceHandler s = new ServiceHandler();
