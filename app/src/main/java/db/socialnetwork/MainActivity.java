@@ -9,13 +9,27 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONObject;
+
+import java.net.CookieHandler;
+import java.net.CookieManager;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CookieManager cookieManager = new CookieManager();
+        CookieHandler.setDefault(cookieManager);
+        SharedPreferences s = (getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE);
+        if (s.getString("id",null)!=null){
+            Intent nextScreen = new Intent(getApplicationContext(),Main2Activity.class);
+            nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(nextScreen);
+        }
         setContentView(R.layout.activity_main);
     }
 
@@ -28,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please fill all the fields", Toast.LENGTH_LONG).show();
             return;
         }
-        Log.v("UserName",uname);
-        Log.v("Password",upwd);
         new ValidateUser().execute(uname, upwd);
     }
 
@@ -47,15 +59,7 @@ public class MainActivity extends AppCompatActivity {
             String msg = "";
             try {
                 msg = s.authorizationCall(url, uname, pwd);
-                if (msg.equals("Invalid")) {
-                    return "__invalidcre__";
-                }
-                else if(msg.equals("Connection Error")) {
-                    return "__invalidc__";
-                }
-
                 return msg;
-                //
             } catch (Exception e) {
                 Log.v("MyUser:",e.getMessage());
                 return "__invalid__";
@@ -66,33 +70,29 @@ public class MainActivity extends AppCompatActivity {
 
 
         protected void onPostExecute(String result) {
-            //   Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-            if(result.equals("__invalidcre__")){
-                Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_LONG).show();
+            Log.v("Result",result);
+            JSONObject auth;
+            String authMsg="";
+            try{
+                auth = new JSONObject(result);
+                if(auth.getBoolean("status")){
+                    SharedPreferences.Editor e = (getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE).edit();
+                    e.putString("id",auth.getString("data"));
+                    e.commit();
+                    Intent nextScreen = new Intent(getApplicationContext(),Main2Activity.class);
+                    nextScreen.putExtra("id",auth.getString("data"));
+                    nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(nextScreen);
+                }
+                else{
+                    authMsg="Invalid Credentials";;
+                }
+                TextView t = (TextView)findViewById(R.id.authM);
+                t.setText(authMsg);
             }
-            else if(result.equals("__invalidc__")){
-                Toast.makeText(getApplicationContext(), "Connection Error", Toast.LENGTH_LONG).show();
+            catch (Exception e){
+                e.printStackTrace();
             }
-            else if(result.equals("__invalid__")){
-                Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
-            }
-            else{
-                Log.v("Result",result);
-//               SharedPreferences s =(getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE);
-//                SharedPreferences.Editor e = s.edit();
-//                e.putString("uname",result);
-//                e.commit();
-//                Toast toast = Toast.makeText(getApplicationContext(), "Welcome" + result, Toast.LENGTH_SHORT);
-//                toast.show();
-                //Log.v("HariPrasad",result);
-//                Intent nextScreen = new Intent(getApplicationContext(), Main2Activity.class);
-//                nextScreen.putExtra("uname", result);
-//                nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                nextScreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                nextScreen.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//                startActivity(nextScreen);
-            }
-
         }
 
     }

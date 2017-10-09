@@ -31,8 +31,8 @@
             android:id="@+id/pwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/userName"
-            android:layout_alignStart="@+id/userName"
+            android:layout_alignLeft="@id/userName"
+            android:layout_alignStart="@id/userName"
             android:layout_below="@+id/userName"
             android:layout_marginTop="33dp"
             android:ems="10"
@@ -44,10 +44,20 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/pwd"
+            android:layout_below="@id/pwd"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="31dp"
             android:onClick="printLog"
             android:text="Login" />
+        <TextView
+            android:id="@+id/authM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button"
+            android:layout_centerHorizontal="true"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:textColor="#ef0408" />
+
     </RelativeLayout>
 </ScrollView>
