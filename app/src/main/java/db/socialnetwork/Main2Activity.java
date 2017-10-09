@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+
 public class Main2Activity extends AppCompatActivity {
 
     @Override

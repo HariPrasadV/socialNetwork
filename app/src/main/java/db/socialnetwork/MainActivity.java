@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -16,14 +15,13 @@ import org.json.JSONObject;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
+import java.net.CookiePolicy;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CookieManager cookieManager = new CookieManager();
-        CookieHandler.setDefault(cookieManager);
         SharedPreferences s = (getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE);
         if (s.getString("id",null)!=null){
             Log.v("ID : ",s.getString("id",null));
@@ -31,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
             nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(nextScreen);
         }
+        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getApplicationContext()),CookiePolicy.ACCEPT_ALL);
+        CookieHandler.setDefault(cookieManager);
         setContentView(R.layout.activity_main);
     }
 
