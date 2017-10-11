@@ -34,6 +34,22 @@ public class SeePosts extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_see_posts, container, false);
         new getFollowedPosts().execute();
+
+//        ArrayList<Posts> p = new ArrayList<>();
+//
+//        p.add(new Posts("Aelo","Belo",new ArrayList<Comments>()));
+//        p.add(new Posts("Aelo","Belo",new ArrayList<Comments>()));
+//        p.add(new Posts("Aelo","Belo",new ArrayList<Comments>()));
+//        p.add(new Posts("Aelo","Belo",new ArrayList<Comments>()));
+//        p.add(new Posts("Aelo","Belo",new ArrayList<Comments>()));
+//        p.add(new Posts("Aelo","Belo",new ArrayList<Comments>()));
+
+//        PostsAdapter p1 = new PostsAdapter(getActivity().getApplicationContext(),0,p);
+//
+//        ListView l = (ListView)rootView.findViewById(R.id.posts);
+//
+//        l.setAdapter(p1);
+
         return rootView;
     }
 
@@ -57,7 +73,7 @@ public class SeePosts extends Fragment {
         }
 
         protected void onPostExecute(String result) {
-            Log.v("Result",result);
+//            Log.v("Result",result);
             try {
                 ListView myListView = (ListView)rootView.findViewById(R.id.posts);
                 ArrayList<Posts> myPostArray = new ArrayList<>();

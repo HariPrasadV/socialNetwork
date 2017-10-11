@@ -65,7 +65,7 @@ public class ServiceHandler {
     public String SearchForUser(String url,String searchTerm)throws Exception{
         URL site = new URL(url);
         JSONObject params = new JSONObject();
-        params.put("searchstring",searchTerm);
+        params.put("uid",searchTerm);
         HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
         urlConnection.setRequestMethod("POST");
         urlConnection.setDoInput(true);

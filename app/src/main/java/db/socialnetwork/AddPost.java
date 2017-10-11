@@ -84,7 +84,7 @@ public class AddPost extends Fragment {
                 if(auth.getBoolean("status")){
                     EditText e = (EditText) rootView.findViewById(R.id.postcontent);
                     e.setText("");
-                    Main2Activity.vp.setCurrentItem(0,true);
+//                    Main2Activity.vp.setCurrentItem(0,true);
                 }
                 else{
                     authMsg="Couldn't create post";;

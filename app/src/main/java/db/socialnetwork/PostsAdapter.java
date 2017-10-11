@@ -1,6 +1,7 @@
 package db.socialnetwork;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,9 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
             final TextView commentsV = (TextView) v.findViewById(R.id.list_comments);
             final Button moreCommButton = (Button)v.findViewById(R.id.button_more);
             if (textV != null) {
-                textV.setText(i.uid + ": " + i.post_content);
+//                Log.v("PostAdapter",textV.getText().toString());
+                textV.setText(i.getUid() + ": " + i.getPost_content());
+//                Log.v("PostAdapter",textV.getText().toString());
             }
             if (commentsV != null) {
 

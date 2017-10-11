@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * Created by jeyasoorya on 12/10/17.
  */
 
-@TargetApi(19)
 
 public class CustomTextChangedListener implements TextWatcher {
 
@@ -75,11 +74,13 @@ public class CustomTextChangedListener implements TextWatcher {
                 searchRes = new JSONObject(s);
                 if(searchRes.getBoolean("status")){
                     try{
-                        JSONArray sugg = new JSONArray(searchRes.getJSONArray("data"));
+                        JSONArray sugg = new JSONArray(searchRes.getString("data"));
                         ArrayList<SiteUser> SUGG = new ArrayList<>();
-                        for(int i=0;i<sugg.length();i++){
-                            JSONObject j = sugg.getJSONObject(i);
+                        JSONArray json = new JSONArray(sugg.getString(0));
+                        for(int i=0;i<json.length();i++){
+                            JSONObject j = json.getJSONObject(i);
                             SUGG.add(new SiteUser(j.getString("uid"),j.getString("name"),j.getString("email")));
+                            //Log.v("Search Results",j.getString("uid"));
                         }
                         forAdapter.suggestions.notifyDataSetChanged();
                         forAdapter.suggestions = new UserAdapter(c,SUGG);
