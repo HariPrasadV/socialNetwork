@@ -1,13 +1,27 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="db.socialnetwork.Search">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <db.socialnetwork.CustomAutoComplete
+        android:id ="@+id/comp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Search User" />
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="Enter search term"
+        android:completionThreshold="3"></db.socialnetwork.CustomAutoComplete>
+    <TextView
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        style="@style/buttonStyle"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Search"/>
 
-</FrameLayout>
+</LinearLayout>

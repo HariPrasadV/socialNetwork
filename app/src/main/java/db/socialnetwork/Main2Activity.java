@@ -27,6 +27,8 @@ import static db.socialnetwork.MainActivity.BaseURL;
 
 public class Main2Activity extends AppCompatActivity {
 
+    public static ViewPager vp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ public class Main2Activity extends AppCompatActivity {
         //new getFollowedPosts().execute();
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-
+        vp = viewPager;
         SimpleFragmentPagerAdapter s = new SimpleFragmentPagerAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(s);
