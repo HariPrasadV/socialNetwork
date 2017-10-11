@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
             nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(nextScreen);
         }
+        else {
+            System.out.println("null ID obtained\n");
+        }
         CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getApplicationContext()),CookiePolicy.ACCEPT_ALL);
         CookieHandler.setDefault(cookieManager);
         setContentView(R.layout.activity_main);
