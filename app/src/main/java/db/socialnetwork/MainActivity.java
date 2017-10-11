@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void printLog(View view){
-        EditText name = (EditText) findViewById(R.id.userName);
+        EditText name = (EditText) findViewById(R.id.edit_comment);
         String uname = name.getText().toString();
         EditText password = (EditText) findViewById(R.id.pwd);
         String upwd = password.getText().toString();

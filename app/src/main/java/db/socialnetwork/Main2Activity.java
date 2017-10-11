@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.text.method.ScrollingMovementMethod;
@@ -112,32 +113,64 @@ public class Main2Activity extends AppCompatActivity {
             this.objects = objects;
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View v = convertView;
             if (v == null) {
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = inflater.inflate(R.layout.post_view, null);
             }
-            Posts i = objects.get(position);
+            final Posts i = objects.get(position);
 
             if (i != null) {
                 TextView textV = (TextView) v.findViewById(R.id.text_content);
-                ListView commentsV = (ListView) v.findViewById(R.id.list_comments);
+                final TextView commentsV = (TextView) v.findViewById(R.id.list_comments);
+                final Button moreCommButton = (Button)v.findViewById(R.id.button_more);
                 if (textV != null) {
-                    textV.setText(i.post_content);
+                    textV.setText(i.uid + ": " + i.post_content);
                 }
                 if (commentsV != null) {
-                    ArrayList<String> myCommentArray = new ArrayList<>();
-                    for (int j=0; j<i.post_comments.size(); j++) {
-                        myCommentArray.add(i.post_comments.get(j).comment);
-                    }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1, myCommentArray);
-                    commentsV.setAdapter(adapter);
-                    if (myCommentArray.size() == 0) {
+
+                    if (i.post_comments.size() == 0) {
                         commentsV.setVisibility(View.GONE);
+                        moreCommButton.setVisibility(View.GONE);
                     }
                     else {
                         commentsV.setVisibility(View.VISIBLE);
+                        if (i.post_comments.size() > 3) {
+                            String myCommentArray = "";
+                            for (int j=0; j<3; j++) {
+                                myCommentArray +=
+                                        i.post_comments.get(j).uid + ": " +
+                                        i.post_comments.get(j).comment + "\n";
+                            }
+                            commentsV.setText(myCommentArray);
+
+                            moreCommButton.setVisibility(View.VISIBLE);
+                            moreCommButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v1) {
+                                    String myCommentArray = "";
+                                    for (int j=0; j<i.post_comments.size(); j++) {
+                                        myCommentArray +=
+                                                i.post_comments.get(j).uid + ": " +
+                                                i.post_comments.get(j).comment + "\n";
+                                    }
+                                    commentsV.setText(myCommentArray);
+                                    moreCommButton.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                        else {
+                            moreCommButton.setVisibility(View.GONE);
+                            String myCommentArray = "";
+                            for (int j=0; j<i.post_comments.size(); j++) {
+                                 myCommentArray +=
+                                         i.post_comments.get(j).uid + ": " +
+                                         i.post_comments.get(j).comment + "\n";
+                            }
+                            commentsV.setText(myCommentArray);
+                        }
                     }
                 }
             }
@@ -174,11 +207,13 @@ public class Main2Activity extends AppCompatActivity {
                 for(int i=0; i<resArray.length(); i++){
                     JSONArray commentArray = new JSONArray(resArray.getJSONObject(i).getString("Comment"));
                     ArrayList<Comments> commentsList = new ArrayList<>();
+                    //System.out.println("# commmments = ");
+                    //System.out.println(commentArray.length());
                     for(int j=0; j<commentArray.length(); j++){
                         commentsList.add(
                                 new Comments(
                                         commentArray.getJSONObject(j).getString("uid"),
-                                        commentArray.getJSONObject(j).getString("commment")
+                                        commentArray.getJSONObject(j).getString("text")
                                 )
                         );
                     }

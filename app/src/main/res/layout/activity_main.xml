@@ -16,7 +16,7 @@
 
 
         <EditText
-            android:id="@+id/userName"
+            android:id="@+id/edit_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -31,9 +31,9 @@
             android:id="@+id/pwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/userName"
-            android:layout_alignStart="@id/userName"
-            android:layout_below="@+id/userName"
+            android:layout_alignLeft="@id/edit_comment"
+            android:layout_alignStart="@id/edit_comment"
+            android:layout_below="@+id/edit_comment"
             android:layout_marginTop="33dp"
             android:ems="10"
             android:gravity="center"
