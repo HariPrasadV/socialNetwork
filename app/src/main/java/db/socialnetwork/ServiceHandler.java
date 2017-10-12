@@ -57,6 +57,24 @@ public class ServiceHandler {
         return makeServiceCall(urlConnection);
     }
 
+    public String addComment(String url,String pid,String content)throws Exception{
+        JSONObject params=new JSONObject();
+        params.put("postid",pid);
+        params.put("content",content);
+        URL site = new URL(url);
+        HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setDoInput(true);
+        urlConnection.setDoOutput(true);
+        OutputStream out = urlConnection.getOutputStream();
+        BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(out,"UTF-8"));
+        writer.write(getPostDataString(params));
+        writer.flush();
+        writer.close();
+        out.close();
+        return makeServiceCall(urlConnection);
+    }
+
     public String seePosts(String url)throws Exception{
         URL site = new URL(url);
         HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();

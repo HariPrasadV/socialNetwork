@@ -1,13 +1,18 @@
 package db.socialnetwork;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -16,9 +21,10 @@ import java.util.ArrayList;
 public class PostsAdapter extends ArrayAdapter<Posts> {
 
     private ArrayList<Posts> objects;
-
+    private Context cont;
     public PostsAdapter(Context context, int textViewResourceId, ArrayList<Posts> objects) {
         super(context, textViewResourceId, objects);
+        cont=context;
         this.objects = objects;
     }
 
@@ -31,14 +37,32 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
         }
         final Posts i = objects.get(position);
 
+        final View root = v;
+
         if (i != null) {
+
+            EditText e1 = (EditText)v.findViewById(R.id.new_comment);
+            e1.setText("");
+
+            TextView t1 = (TextView)v.findViewById(R.id.postHeader);
             TextView textV = (TextView) v.findViewById(R.id.text_content);
+
             final TextView commentsV = (TextView) v.findViewById(R.id.list_comments);
             final Button moreCommButton = (Button)v.findViewById(R.id.button_more);
+
+            Button addComment = (Button)v.findViewById(R.id.add_comment);
+            addComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EditText e2 = (EditText)root.findViewById(R.id.new_comment);
+                    new AddComment().execute(i.getPostid(),e2.getText().toString());
+                    e2.clearFocus();
+                }
+            });
+
             if (textV != null) {
-//                Log.v("PostAdapter",textV.getText().toString());
-                textV.setText(i.getUid() + ": " + i.getPost_content());
-//                Log.v("PostAdapter",textV.getText().toString());
+                t1.setText("Posted By "+i.getUid());
+                textV.setText(i.getPost_content());
             }
             if (commentsV != null) {
 
@@ -86,5 +110,42 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
             }
         }
         return v;
+    }
+
+    private class AddComment extends AsyncTask<String,Void,String>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url = MainActivity.BaseURL+"/NewComment";
+            String pid = strings[0];
+            String content = strings[1];
+            String msg="";
+            ServiceHandler s = new ServiceHandler();
+            try{
+                msg=s.addComment(url,pid,content);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            return msg;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.v("CommentRes",s);
+            try{
+                JSONObject json = new JSONObject(s);
+                if(json.getBoolean("status")){
+                    Toast.makeText(cont.getApplicationContext(), "Succesfully commented", Toast.LENGTH_LONG).show();
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 }

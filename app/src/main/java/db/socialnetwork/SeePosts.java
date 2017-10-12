@@ -76,6 +76,7 @@ public class SeePosts extends Fragment {
                     Posts p = new Posts(
                             resArray.getJSONObject(i).getString("uid"),
                             resArray.getJSONObject(i).getString("text"),
+                            resArray.getJSONObject(i).getString("postid"),
                             commentsList
                     );
                     myPostArray.add(p);
