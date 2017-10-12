@@ -19,6 +19,9 @@ import java.util.Iterator;
  */
 
 public class ServiceHandler {
+
+
+
     public String authorizationCall(String url, String uname, String pwd)throws Exception{
         JSONObject params=new JSONObject();
         params.put("id",uname);
@@ -62,10 +65,27 @@ public class ServiceHandler {
         return makeServiceCall(urlConnection);
     }
 
-    public String SearchForUser(String url,String searchTerm)throws Exception{
+    public String SearchForUserFollowUnFollow(String url,String searchTerm)throws Exception{
         URL site = new URL(url);
         JSONObject params = new JSONObject();
         params.put("uid",searchTerm);
+        HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setDoInput(true);
+        urlConnection.setDoOutput(true);
+        OutputStream out = urlConnection.getOutputStream();
+        BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(out,"UTF-8"));
+        writer.write(getPostDataString(params));
+        writer.flush();
+        writer.close();
+        out.close();
+        return makeServiceCall(urlConnection);
+    }
+
+    public String seeUserPosts(String url,String uid2)throws Exception{
+        URL site = new URL(url);
+        JSONObject params = new JSONObject();
+        params.put("uid",uid2);
         HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
         urlConnection.setRequestMethod("POST");
         urlConnection.setDoInput(true);

@@ -19,7 +19,8 @@ import java.net.CookiePolicy;
 
 public class MainActivity extends AppCompatActivity {
     //public static final String BaseURL = "http://192.168.0.102:8080/SocialBackend";
-    public static final String BaseURL = "http://192.168.0.101:8080/Backend";
+//    public static final String BaseURL = "http://192.168.0.101:8080/Backend";
+    public static final String BaseURL = "http://10.196.24.98:8080/SocialBackend";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

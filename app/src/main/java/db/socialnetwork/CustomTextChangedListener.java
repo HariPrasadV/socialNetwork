@@ -58,7 +58,7 @@ public class CustomTextChangedListener implements TextWatcher {
             ServiceHandler s = new ServiceHandler();
             String msg="";
             try{
-                msg = s.SearchForUser(url,searchTerm);
+                msg = s.SearchForUserFollowUnFollow(url,searchTerm);
             }
             catch (Exception e){
                 e.printStackTrace();

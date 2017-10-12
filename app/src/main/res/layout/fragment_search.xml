@@ -16,12 +16,52 @@
         android:hint="Enter search term"
         android:completionThreshold="3"></db.socialnetwork.CustomAutoComplete>
     <TextView
-        android:id="@+id/search"
+        android:id="@+id/cancel"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        style="@style/buttonStyle"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:text="Search"/>
+        style="@style/buttonStyle"
+        android:text="cancel"/>
+
+    <LinearLayout
+        android:id="@+id/useroptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:orientation="horizontal">
+    <TextView
+        android:id="@+id/userposts"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="48dp"
+        style="@style/buttonStyle"
+        android:text="posts"/>
+        <TextView
+            android:id="@+id/userfollow"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            style="@style/buttonStyle"
+            android:text="follow"/>
+        <TextView
+            android:id="@+id/userunfollow"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            style="@style/buttonStyle"
+            android:text="unfollow"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:id="@+id/idposts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
 
 </LinearLayout>

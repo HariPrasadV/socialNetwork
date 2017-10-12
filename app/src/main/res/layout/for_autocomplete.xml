@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:orientation="horizontal"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginLeft="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
+    android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/userid"
             android:textColor="@color/black"
@@ -21,17 +19,18 @@
         <TextView
             android:id="@+id/username"
             android:layout_width="0dp"
+            android:layout_weight="1"
             android:textColor="@color/black"
             android:gravity="center_horizontal|center_vertical"
-            android:layout_weight="1"
+
             android:layout_height="wrap_content"
             tools:text="mac"/>
-    </LinearLayout>
+
     <TextView
         android:id="@+id/useremail"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:textColor="@color/black"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal|center_vertical"
         tools:text="mac@gmail.com"/>
