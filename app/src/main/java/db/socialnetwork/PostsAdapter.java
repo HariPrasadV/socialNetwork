@@ -1,6 +1,8 @@
 package db.socialnetwork;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,8 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 //refs- https://devtut.wordpress.com/2011/06/09/custom-arrayadapter-for-a-listview-android/
 
@@ -41,9 +45,6 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
 
         if (i != null) {
 
-            EditText e1 = (EditText)v.findViewById(R.id.new_comment);
-            e1.setText("");
-
             TextView t1 = (TextView)v.findViewById(R.id.postHeader);
             TextView textV = (TextView) v.findViewById(R.id.text_content);
 
@@ -54,9 +55,13 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
             addComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    EditText e2 = (EditText)root.findViewById(R.id.new_comment);
-                    new AddComment().execute(i.getPostid(),e2.getText().toString());
-                    e2.clearFocus();
+                    SharedPreferences.Editor e = (cont.getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE).edit();
+                    e.putString("pid",i.getPostid());
+                    e.commit();
+                    Intent nextScreen = new Intent(cont.getApplicationContext(),CommentActivity.class);
+                    //nextScreen.putExtra("id",auth.getString("data"));
+                    nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    cont.startActivity(nextScreen);
                 }
             });
 
@@ -110,42 +115,5 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
             }
         }
         return v;
-    }
-
-    private class AddComment extends AsyncTask<String,Void,String>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String url = MainActivity.BaseURL+"/NewComment";
-            String pid = strings[0];
-            String content = strings[1];
-            String msg="";
-            ServiceHandler s = new ServiceHandler();
-            try{
-                msg=s.addComment(url,pid,content);
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-            return msg;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            Log.v("CommentRes",s);
-            try{
-                JSONObject json = new JSONObject(s);
-                if(json.getBoolean("status")){
-                    Toast.makeText(cont.getApplicationContext(), "Succesfully commented", Toast.LENGTH_LONG).show();
-                }
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
     }
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
+    android:layout_margin="16dp"
     tools:context="db.socialnetwork.Main2Activity"
     android:orientation="vertical">
  <TextView
@@ -47,24 +47,11 @@
      android:layout_marginTop="8dp"
      android:textSize="12sp"
      android:text="more"/>
- <LinearLayout
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:orientation="horizontal"
-     android:layout_marginTop="16dp">
-  <EditText
-      android:id="@+id/new_comment"
-      android:layout_width="0dp"
-      android:layout_weight="1"
-      android:textColor="@color/black"
-      android:layout_height="wrap_content"
-      android:hint="Comment here..."
-      android:textColorHint="#022b6d"/>
   <Button
       android:id="@+id/add_comment"
+      android:layout_marginTop="16dp"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Comment"/>
- </LinearLayout>
 
 </LinearLayout>
