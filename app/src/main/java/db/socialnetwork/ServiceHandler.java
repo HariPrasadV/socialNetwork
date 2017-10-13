@@ -1,5 +1,6 @@
 package db.socialnetwork;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -44,9 +45,12 @@ public class ServiceHandler {
         return makeServiceCall(PostMethod(params,site));
     }
 
-    public String createPost(String url, String content)throws Exception{
+    public String createPost(String url, String content, String img)throws Exception{
         JSONObject params=new JSONObject();
-        params.put("content",content);
+        if (content != null)
+            params.put("content", content);
+        if (img != null)
+            params.put("img", img);
         URL site = new URL(url);
         return makeServiceCall(PostMethod(params,site));
     }

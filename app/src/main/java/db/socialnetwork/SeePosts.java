@@ -63,6 +63,7 @@ public class SeePosts extends Fragment {
                 return;
             }
             try {
+                Log.v("result",result);
                 ListView myListView = (ListView)rootView.findViewById(R.id.posts);
                 ArrayList<Posts> myPostArray = new ArrayList<>();
                 JSONObject resObj = new JSONObject(result);
@@ -78,9 +79,14 @@ public class SeePosts extends Fragment {
                                 )
                         );
                     }
+                    String imgBytes = null;
+                    if (resArray.getJSONObject(i).has("image")) {
+                        imgBytes = resArray.getJSONObject(i).getString("image");
+                    }
                     Posts p = new Posts(
                             resArray.getJSONObject(i).getString("uid"),
                             resArray.getJSONObject(i).getString("text"),
+                            imgBytes,
                             resArray.getJSONObject(i).getString("postid"),
                             commentsList
                     );
