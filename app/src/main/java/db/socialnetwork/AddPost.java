@@ -89,7 +89,7 @@ public class AddPost extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(),"Successfully posted",Toast.LENGTH_LONG);
                     e.setText("");
                     Intent nextScreen = new Intent(getActivity().getApplicationContext(), Main2Activity.class);
-                    nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(nextScreen);
                 }
                 else{

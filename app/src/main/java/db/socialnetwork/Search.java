@@ -207,9 +207,10 @@ public class Search extends Fragment {
                     JSONArray j = new JSONArray(json.getString("data"));
                     for(int i=0;i<j.length();i++){
                         JSONObject j1 = j.getJSONObject(i);
+
                         JSONArray commentsList = new JSONArray(j1.getString("Comment"));
                         ArrayList<Comments> c = new ArrayList<>();
-                        if(commentsList.length()==0) {
+                        if(commentsList.length()!=0) {
                             for (int k = 0; k < commentsList.length(); k++) {
                                 c.add(new Comments(commentsList.getJSONObject(k).getString("uid"), commentsList.getJSONObject(k).getString("text")));
                             }
