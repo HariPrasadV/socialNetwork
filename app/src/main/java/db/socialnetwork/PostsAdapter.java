@@ -60,7 +60,7 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
                     e.commit();
                     Intent nextScreen = new Intent(cont.getApplicationContext(),CommentActivity.class);
                     //nextScreen.putExtra("id",auth.getString("data"));
-                    nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     cont.startActivity(nextScreen);
                 }
             });

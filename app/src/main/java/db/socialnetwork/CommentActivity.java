@@ -54,7 +54,7 @@ public class CommentActivity extends AppCompatActivity {
                 }
                 e.commit();
                 Intent nextScreen = new Intent(getApplicationContext(), Main2Activity.class);
-                nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(nextScreen);
             }
         });

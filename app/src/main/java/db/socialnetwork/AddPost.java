@@ -86,7 +86,11 @@ public class AddPost extends Fragment {
                 auth = new JSONObject(result);
                 if(auth.getBoolean("status")){
                     EditText e = (EditText) rootView.findViewById(R.id.postcontent);
+                    Toast.makeText(getActivity().getApplicationContext(),"Successfully posted",Toast.LENGTH_LONG);
                     e.setText("");
+                    Intent nextScreen = new Intent(getActivity().getApplicationContext(), Main2Activity.class);
+                    nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(nextScreen);
                 }
                 else{
                     authMsg="Couldn't create post";;
