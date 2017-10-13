@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -65,7 +66,10 @@ public class Settings extends Fragment {
             }
         }
         protected void onPostExecute(String result) {
-            Log.v("Result",result);
+            if(result.equals("Connection Error")){
+                Toast.makeText(getActivity().getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_LONG);
+                return;
+            }
             try{
                 JSONObject deauth = new JSONObject(result);
                 if(deauth.getBoolean("status")){

@@ -17,6 +17,7 @@
             android:layout_weight="1"
             android:hint="Comment here..."
             android:textColorHint="#022b6d"
+            android:inputType="textAutoComplete"
             android:layout_height="wrap_content" />
         <Button
             android:id="@+id/addc"

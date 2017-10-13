@@ -156,7 +156,10 @@ public class Search extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            Log.v("FollowUnfollow",s);
+            if(s.equals("Connection Error")){
+                Toast.makeText(getActivity().getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_LONG);
+                return;
+            }
             try{
                 JSONObject json = new JSONObject(s);
                 if(json.getBoolean("status")){

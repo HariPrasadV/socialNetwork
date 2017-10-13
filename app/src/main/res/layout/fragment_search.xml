@@ -18,7 +18,7 @@
     <TextView
         android:id="@+id/cancel"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="32dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         style="@style/buttonStyle"
@@ -36,30 +36,28 @@
         android:id="@+id/userposts"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="48dp"
+        android:layout_height="32dp"
         style="@style/buttonStyle"
         android:text="posts"/>
         <TextView
             android:id="@+id/userfollow"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="48dp"
+            android:layout_height="32dp"
             style="@style/buttonStyle"
             android:text="follow"/>
         <TextView
             android:id="@+id/userunfollow"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="48dp"
+            android:layout_height="32dp"
             style="@style/buttonStyle"
             android:text="unfollow"/>
 
     </LinearLayout>
 
     <ListView
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:id="@+id/idposts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>

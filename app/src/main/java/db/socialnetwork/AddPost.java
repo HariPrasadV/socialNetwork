@@ -76,15 +76,17 @@ public class AddPost extends Fragment {
         }
 
         protected void onPostExecute(String result) {
-            Log.v("Result",result);
             JSONObject auth;
+            if(result.equals("Connection Error")){
+                Toast.makeText(getActivity().getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_LONG);
+                return;
+            }
             String authMsg="";
             try{
                 auth = new JSONObject(result);
                 if(auth.getBoolean("status")){
                     EditText e = (EditText) rootView.findViewById(R.id.postcontent);
                     e.setText("");
-//                    Main2Activity.vp.setCurrentItem(0,true);
                 }
                 else{
                     authMsg="Couldn't create post";;

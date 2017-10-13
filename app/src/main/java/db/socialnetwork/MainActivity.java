@@ -73,9 +73,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         protected void onPostExecute(String result) {
-            Log.v("Result",result);
             JSONObject auth;
             String authMsg="";
+            if(result.equals("Connection Error")){
+                Toast.makeText(getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_LONG);
+                return;
+            }
             try{
                 auth = new JSONObject(result);
                 if(auth.getBoolean("status")){
@@ -97,6 +100,5 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
     }
 }

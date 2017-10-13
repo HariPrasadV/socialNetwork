@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -68,8 +69,11 @@ public class CustomTextChangedListener implements TextWatcher {
 
         @Override
         protected void onPostExecute(String s) {
-            Log.v("searchRes",s);
             JSONObject searchRes;
+            if(s.equals("Connection Error")){
+                Toast.makeText(c.getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_LONG);
+                return;
+            }
             try{
                 searchRes = new JSONObject(s);
                 if(searchRes.getBoolean("status")){
@@ -80,7 +84,6 @@ public class CustomTextChangedListener implements TextWatcher {
                         for(int i=0;i<json.length();i++){
                             JSONObject j = json.getJSONObject(i);
                             SUGG.add(new SiteUser(j.getString("uid"),j.getString("name"),j.getString("email")));
-                            //Log.v("Search Results",j.getString("uid"));
                         }
                         forAdapter.suggestions.notifyDataSetChanged();
                         forAdapter.suggestions = new UserAdapter(c,SUGG);

@@ -21,40 +21,34 @@ import java.util.Iterator;
 public class ServiceHandler {
 
 
+    public HttpURLConnection PostMethod(JSONObject params,URL site)throws Exception{
+        HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setDoInput(true);
+        urlConnection.setDoOutput(true);
+        OutputStream out = urlConnection.getOutputStream();
+        BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(out,"UTF-8"));
+        writer.write(getPostDataString(params));
+        writer.flush();
+        writer.close();
+        out.close();
+        return urlConnection;
+    }
+
 
     public String authorizationCall(String url, String uname, String pwd)throws Exception{
         JSONObject params=new JSONObject();
         params.put("id",uname);
         params.put("password",pwd);
         URL site = new URL(url);
-        HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
-        urlConnection.setRequestMethod("POST");
-        urlConnection.setDoInput(true);
-        urlConnection.setDoOutput(true);
-        OutputStream out = urlConnection.getOutputStream();
-        BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(out,"UTF-8"));
-        writer.write(getPostDataString(params));
-        writer.flush();
-        writer.close();
-        out.close();
-        return makeServiceCall(urlConnection);
+        return makeServiceCall(PostMethod(params,site));
     }
 
     public String createPost(String url, String content)throws Exception{
         JSONObject params=new JSONObject();
         params.put("content",content);
         URL site = new URL(url);
-        HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
-        urlConnection.setRequestMethod("POST");
-        urlConnection.setDoInput(true);
-        urlConnection.setDoOutput(true);
-        OutputStream out = urlConnection.getOutputStream();
-        BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(out,"UTF-8"));
-        writer.write(getPostDataString(params));
-        writer.flush();
-        writer.close();
-        out.close();
-        return makeServiceCall(urlConnection);
+        return makeServiceCall(PostMethod(params,site));
     }
 
     public String addComment(String url,String pid,String content)throws Exception{
@@ -62,17 +56,7 @@ public class ServiceHandler {
         params.put("postid",pid);
         params.put("content",content);
         URL site = new URL(url);
-        HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
-        urlConnection.setRequestMethod("POST");
-        urlConnection.setDoInput(true);
-        urlConnection.setDoOutput(true);
-        OutputStream out = urlConnection.getOutputStream();
-        BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(out,"UTF-8"));
-        writer.write(getPostDataString(params));
-        writer.flush();
-        writer.close();
-        out.close();
-        return makeServiceCall(urlConnection);
+        return makeServiceCall(PostMethod(params,site));
     }
 
     public String seePosts(String url)throws Exception{
@@ -87,34 +71,14 @@ public class ServiceHandler {
         URL site = new URL(url);
         JSONObject params = new JSONObject();
         params.put("uid",searchTerm);
-        HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
-        urlConnection.setRequestMethod("POST");
-        urlConnection.setDoInput(true);
-        urlConnection.setDoOutput(true);
-        OutputStream out = urlConnection.getOutputStream();
-        BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(out,"UTF-8"));
-        writer.write(getPostDataString(params));
-        writer.flush();
-        writer.close();
-        out.close();
-        return makeServiceCall(urlConnection);
+        return makeServiceCall(PostMethod(params,site));
     }
 
     public String seeUserPosts(String url,String uid2)throws Exception{
         URL site = new URL(url);
         JSONObject params = new JSONObject();
         params.put("uid",uid2);
-        HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
-        urlConnection.setRequestMethod("POST");
-        urlConnection.setDoInput(true);
-        urlConnection.setDoOutput(true);
-        OutputStream out = urlConnection.getOutputStream();
-        BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(out,"UTF-8"));
-        writer.write(getPostDataString(params));
-        writer.flush();
-        writer.close();
-        out.close();
-        return makeServiceCall(urlConnection);
+        return makeServiceCall(PostMethod(params,site));
     }
 
     public String logout(String url)throws Exception{
@@ -138,15 +102,13 @@ public class ServiceHandler {
             }
             in.close();
             urlConnection.disconnect();
-            Log.v("Response",sb.toString());
             return sb.toString();
         }
         else{
-            Log.v("Response Code", String.valueOf(response));
             return new String("Connection Error");
         }
-
     }
+
     public String getPostDataString(JSONObject params)throws Exception{
         StringBuilder sb = new StringBuilder();
         boolean first = true;

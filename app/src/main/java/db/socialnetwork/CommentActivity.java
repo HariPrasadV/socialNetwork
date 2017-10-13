@@ -85,6 +85,10 @@ public class CommentActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             Log.v("CommentRes",s);
+            if(s.equals("Connection Error")){
+                Toast.makeText(getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_LONG);
+                return;
+            }
             try{
                 JSONObject json = new JSONObject(s);
                 if(json.getBoolean("status")){

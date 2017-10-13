@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -57,6 +58,10 @@ public class SeePosts extends Fragment {
         }
 
         protected void onPostExecute(String result) {
+            if(result.equals("Connection Error")){
+                Toast.makeText(getActivity().getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_LONG);
+                return;
+            }
             try {
                 ListView myListView = (ListView)rootView.findViewById(R.id.posts);
                 ArrayList<Posts> myPostArray = new ArrayList<>();

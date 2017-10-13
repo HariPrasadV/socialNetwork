@@ -34,7 +34,6 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
         String uid = (getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE).getString("id",null);
-        //new getFollowedPosts().execute();
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         vp = viewPager;
@@ -43,6 +42,11 @@ public class Main2Activity extends AppCompatActivity {
         viewPager.setAdapter(s);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
 
