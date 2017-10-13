@@ -214,7 +214,10 @@ public class Search extends Fragment {
                                 c.add(new Comments(commentsList.getJSONObject(k).getString("uid"), commentsList.getJSONObject(k).getString("text")));
                             }
                         }
-                        userPosts.add(new Posts(j1.getString("uid"),j1.getString("text"),j1.getString("postid"),c));
+                        String img = null;
+                        if (j1.has("image"))
+                            img = j1.getString("image");
+                        userPosts.add(new Posts(j1.getString("uid"),j1.getString("text"),img,j1.getString("postid"),c));
                     }
                     PostsAdapter p = new PostsAdapter(getActivity().getApplicationContext(),R.layout.post_view, userPosts);
                     lv.setVisibility(View.VISIBLE);

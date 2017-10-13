@@ -3,7 +3,10 @@ package db.socialnetwork;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +51,7 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
 
             TextView t1 = (TextView)v.findViewById(R.id.postHeader);
             TextView textV = (TextView) v.findViewById(R.id.text_content);
-
+            ImageView imgV = (ImageView) v.findViewById(R.id.imgPostView);
             final TextView commentsV = (TextView) v.findViewById(R.id.list_comments);
             final Button moreCommButton = (Button)v.findViewById(R.id.button_more);
 
@@ -68,6 +72,18 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
             if (textV != null) {
                 t1.setText("Posted By "+i.getUid());
                 textV.setText(i.getPost_content());
+            }
+            if (imgV != null) {
+                if (i.getImg() != null) {
+                    System.out.println("setting image");
+                    imgV.setVisibility(View.VISIBLE);
+                    byte[] decodedImg = Base64.decode(i.getImg(), Base64.DEFAULT);
+                    Bitmap bmpImg = BitmapFactory.decodeByteArray(decodedImg, 0, decodedImg.length);
+                    imgV.setImageBitmap(bmpImg);
+                }
+                else {
+                    imgV.setVisibility(View.GONE);
+                }
             }
             if (commentsV != null) {
 

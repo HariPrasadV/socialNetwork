@@ -1,5 +1,9 @@
 package db.socialnetwork;
 
+import android.graphics.Bitmap;
+import android.util.Base64;
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -9,12 +13,21 @@ import java.util.ArrayList;
 public class Posts {
     String uid,postid;
     String post_content;
+    String base64_img;
     ArrayList<Comments> post_comments;
-    Posts(String uid_, String cont_, String pid,ArrayList<Comments> comments_){
+    Posts(String uid_, String cont_, String base64Img_, String pid, ArrayList<Comments> comments_){
         uid = uid_;
         post_content = cont_;
-        postid=pid;
+        postid = pid;
         post_comments = comments_;
+        base64_img = base64Img_;
+    }
+    Posts(String content_, String img_) {
+        post_content = content_;
+        base64_img = img_;
+    }
+    String getImg(){
+        return base64_img;
     }
 
     String getUid(){

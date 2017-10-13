@@ -6,6 +6,26 @@
     tools:context="db.socialnetwork.AddPost">
 
     <!-- TODO: Update blank fragment layout -->
+    <Button
+        android:id="@+id/buttonLoadPic"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="0"
+        android:text="Add Pic">
+    </Button>
+
+    <ImageView
+        android:id="@+id/imgView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="200dp"
+        android:maxHeight="200dp"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center_horizontal">
+    </ImageView>
+
     <EditText
         android:id="@+id/postcontent"
         android:layout_width="match_parent"
@@ -16,12 +36,14 @@
         android:gravity="center_horizontal|center_vertical"
         android:layout_weight="2"
         />
+
     <TextView
         android:id="@+id/addpost"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         style="@style/buttonStyle"
         android:text="Add Post" />
+
     <TextView
         android:id="@+id/erradd"
         android:layout_width="wrap_content"
