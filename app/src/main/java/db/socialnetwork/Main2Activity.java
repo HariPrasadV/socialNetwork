@@ -32,6 +32,8 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getApplicationContext()),CookiePolicy.ACCEPT_ALL);
+        CookieHandler.setDefault(cookieManager);
         setContentView(R.layout.home_page);
 //        String uid = (getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE).getString("id",null);
 

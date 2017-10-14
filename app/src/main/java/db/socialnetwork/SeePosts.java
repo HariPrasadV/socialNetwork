@@ -28,7 +28,7 @@ public class SeePosts extends Fragment {
 
     private View rootView;
     private ListView lv;
-    private ArrayList<Posts> see_posts;
+    public ArrayList<Posts> see_posts;
     private PostsAdapter pa;
     private int offset,limit;
     private boolean more_data_available;

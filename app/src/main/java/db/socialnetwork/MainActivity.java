@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getApplicationContext()),CookiePolicy.ACCEPT_ALL);
-        CookieHandler.setDefault(cookieManager);
         setContentView(R.layout.activity_main);
     }
 
