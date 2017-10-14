@@ -237,6 +237,13 @@ public class AddPost extends Fragment {
                     startActivity(nextScreen);
                 }
                 else{
+                    if(auth.has("message")){
+                        if(auth.getString("message").equals("Invalid session")){
+                            Intent nextScreen = new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                            nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(nextScreen);
+                        }
+                    }
                     authMsg="Couldn't create post";;
                 }
                 TextView t = (TextView)rootView.findViewById(R.id.erradd);

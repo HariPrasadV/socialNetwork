@@ -2,6 +2,7 @@ package db.socialnetwork;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -91,6 +92,15 @@ public class CustomTextChangedListener implements TextWatcher {
                     }
                     catch (Exception e){
                         e.printStackTrace();
+                    }
+                }
+                else{
+                    if(searchRes.has("message")){
+                        if(searchRes.getString("message").equals("Invalid session")){
+                            Intent nextScreen = new Intent(c.getApplicationContext(),MainActivity.class);
+                            nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            c.startActivity(nextScreen);
+                        }
                     }
                 }
             }

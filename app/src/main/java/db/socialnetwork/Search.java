@@ -1,6 +1,7 @@
 package db.socialnetwork;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -193,7 +194,16 @@ public class Search extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(), json.getString("data"), Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(getActivity().getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
+                    if(json.has("message")){
+                        if(json.getString("message").equals("Invalid session")){
+                            Intent nextScreen = new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                            nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(nextScreen);
+                        }
+                        else{
+                            Toast.makeText(getActivity().getApplicationContext(),json.getString("message"),Toast.LENGTH_SHORT);
+                        }
+                    }
                 }
             }
             catch (Exception e){
@@ -249,6 +259,15 @@ public class Search extends Fragment {
                     }
                     offset = see_user_posts.size();
                     pa.notifyDataSetChanged();
+                }
+                else{
+                    if(json.has("message")){
+                        if(json.getString("message").equals("Invalid session")){
+                            Intent nextScreen = new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                            nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(nextScreen);
+                        }
+                    }
                 }
             }
             catch (Exception e){

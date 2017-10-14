@@ -90,6 +90,15 @@ public class CommentActivity extends AppCompatActivity {
                 if(json.getBoolean("status")){
                     Toast.makeText(getApplicationContext(), "Succesfully commented", Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    if(json.has("message")){
+                        if(json.getString("message").equals("Invalid session")){
+                            Intent nextScreen = new Intent(getApplicationContext(),MainActivity.class);
+                            nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(nextScreen);
+                        }
+                    }
+                }
             }
             catch (Exception e){
                 e.printStackTrace();

@@ -80,6 +80,15 @@ public class Settings extends Fragment {
                     nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(nextScreen);
                 }
+                else{
+                    if(deauth.has("message")){
+                        if(deauth.getString("message").equals("Invalid session")){
+                            Intent nextScreen = new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                            nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(nextScreen);
+                        }
+                    }
+                }
             }
             catch (Exception e){
                 e.printStackTrace();

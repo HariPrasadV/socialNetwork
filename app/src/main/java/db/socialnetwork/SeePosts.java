@@ -1,6 +1,7 @@
 package db.socialnetwork;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -94,7 +95,20 @@ public class SeePosts extends Fragment {
                 return;
             }
             try {
+                Log.v("res",result);
                 JSONObject resObj = new JSONObject(result);
+                if(!resObj.getBoolean("status")){
+                    Log.v("Hello:","hello1");
+                    if(resObj.has("message")){
+                        if(resObj.getString("message").equals("Invalid session")){
+                            Log.v("Hello:","hello1");
+                            Intent nextScreen = new Intent(getActivity().getApplicationContext(),MainActivity.class);
+                            nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(nextScreen);
+                        }
+                    }
+                }
+
                 JSONArray resArray = new JSONArray(resObj.getString("data"));
                 if(resArray.length()==0)
                     more_data_available=false;

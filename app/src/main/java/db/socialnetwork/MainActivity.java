@@ -24,13 +24,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences s = (getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE);
-        if (s.getString("id",null)!=null){
-            Log.v("ID : ",s.getString("id",null));
-            Intent nextScreen = new Intent(getApplicationContext(),Main2Activity.class);
-            nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(nextScreen);
-        }
         CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getApplicationContext()),CookiePolicy.ACCEPT_ALL);
         CookieHandler.setDefault(cookieManager);
         setContentView(R.layout.activity_main);
@@ -83,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 auth = new JSONObject(result);
                 if(auth.getBoolean("status")){
                     SharedPreferences.Editor e = (getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE).edit();
-                    e.putString("id",auth.getString("data"));
+//                    e.putString("id",auth.getString("data"));
                     e.putInt("offset",-1);
                     e.commit();
                     Intent nextScreen = new Intent(getApplicationContext(),Main2Activity.class);
