@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,24 +41,28 @@ public class SeePosts extends Fragment {
         more_data_available = true;
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         offset = 0;
-        more_data_available = true;
         if((getActivity().getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE).getInt("offset",0)!=0){
-            Log.v("Value of Offset",Integer.toString(offset));
             offset = -1;
             SharedPreferences.Editor e = (getActivity().getApplicationContext()).getSharedPreferences("Myprefs", MODE_PRIVATE).edit();
             e.remove("offset");
             e.commit();
         }
-        rootView = inflater.inflate(R.layout.fragment_see_posts, container, false);
-        lv = (ListView)rootView.findViewById(R.id.posts);
         see_posts = new ArrayList<>();
         pa = new PostsAdapter(getActivity().getApplicationContext(),R.layout.post_view,see_posts,true);
+        new getFollowedPosts().execute(offset,limit);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        more_data_available = true;
+        rootView = inflater.inflate(R.layout.fragment_see_posts, container, false);
+        lv = (ListView)rootView.findViewById(R.id.posts);
         lv.setAdapter(pa);
         lv.setOnScrollListener(new EndlessScrollListener() {
             @Override
@@ -66,8 +71,13 @@ public class SeePosts extends Fragment {
                 return more_data_available;
             }
         });
-        new getFollowedPosts().execute(offset,limit);
         return rootView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        more_data_available = true;
     }
 
     private class getFollowedPosts extends AsyncTask<Integer, Void, String> {
@@ -95,13 +105,10 @@ public class SeePosts extends Fragment {
                 return;
             }
             try {
-                Log.v("res",result);
                 JSONObject resObj = new JSONObject(result);
                 if(!resObj.getBoolean("status")){
-                    Log.v("Hello:","hello1");
                     if(resObj.has("message")){
                         if(resObj.getString("message").equals("Invalid session")){
-                            Log.v("Hello:","hello1");
                             Intent nextScreen = new Intent(getActivity().getApplicationContext(),MainActivity.class);
                             nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(nextScreen);

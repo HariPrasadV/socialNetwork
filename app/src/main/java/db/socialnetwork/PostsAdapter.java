@@ -82,7 +82,6 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
             }
             if (imgV != null) {
                 if (i.getImg() != null) {
-                    System.out.println("setting image");
                     imgV.setVisibility(View.VISIBLE);
                     byte[] decodedImg = Base64.decode(i.getImg(), Base64.DEFAULT);
                     Bitmap bmpImg = BitmapFactory.decodeByteArray(decodedImg, 0, decodedImg.length);

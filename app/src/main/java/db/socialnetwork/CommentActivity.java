@@ -80,7 +80,6 @@ public class CommentActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            Log.v("CommentRes",s);
             if(s.equals("Connection Error")){
                 Toast.makeText(getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_SHORT);
                 return;

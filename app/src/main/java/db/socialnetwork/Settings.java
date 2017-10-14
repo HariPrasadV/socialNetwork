@@ -37,6 +37,17 @@ public class Settings extends Fragment {
 
         TextView logout = (TextView)rootView.findViewById(R.id.Logout);
 
+        TextView reload = (TextView)rootView.findViewById(R.id.Reload);
+
+        reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextScreen = new Intent(getActivity().getApplicationContext(),Main2Activity.class);
+                nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(nextScreen);
+            }
+        });
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

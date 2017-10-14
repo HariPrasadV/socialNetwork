@@ -185,13 +185,13 @@ public class Search extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             if(s.equals("Connection Error")){
-                Toast.makeText(getActivity().getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_LONG);
+                Toast.makeText(getActivity().getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_SHORT);
                 return;
             }
             try{
                 JSONObject json = new JSONObject(s);
                 if(json.getBoolean("status")){
-                    Toast.makeText(getActivity().getApplicationContext(), json.getString("data"), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(), json.getString("data"), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     if(json.has("message")){
@@ -201,7 +201,7 @@ public class Search extends Fragment {
                             startActivity(nextScreen);
                         }
                         else{
-                            Toast.makeText(getActivity().getApplicationContext(),json.getString("message"),Toast.LENGTH_SHORT);
+                            Toast.makeText(getActivity().getApplicationContext(),json.getString("message"),Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

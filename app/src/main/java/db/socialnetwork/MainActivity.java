@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     e.putInt("offset",-1);
                     e.commit();
                     Intent nextScreen = new Intent(getApplicationContext(),Main2Activity.class);
-                    nextScreen.putExtra("id",auth.getString("data"));
+//                    nextScreen.putExtra("id",auth.getString("data"));
                     nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(nextScreen);
                 }
