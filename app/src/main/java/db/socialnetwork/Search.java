@@ -32,9 +32,18 @@ public class Search extends Fragment {
     public SiteUser selectedUser;
     private View rootView;
 
+    private ListView lv;
+    private ArrayList<Posts> see_user_posts;
+    private PostsAdapter pa;
+    private int offset,limit;
+    private boolean more_data_available;
+
     public Search() {
         // Required empty public constructor
         selectedUser = null;
+        offset = 0;
+        more_data_available = true;
+        limit = 10;
     }
 
 
@@ -42,8 +51,10 @@ public class Search extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         ArrayList<SiteUser> users = new ArrayList<>();
+
+        offset = 0;
+        more_data_available = true;
 
         users.add(new SiteUser("Wait for suggestions","",""));
 
@@ -52,8 +63,20 @@ public class Search extends Fragment {
         final View UserOptions = rootView.findViewById(R.id.useroptions);
         UserOptions.setVisibility(View.GONE);
 
-        ListView lv = (ListView) rootView.findViewById(R.id.idposts);
+        lv = (ListView) rootView.findViewById(R.id.idposts);
         lv.setVisibility(View.GONE);
+        see_user_posts = new ArrayList<>();
+        pa = new PostsAdapter(getActivity().getApplicationContext(),R.layout.post_view,see_user_posts,false);
+        lv.setAdapter(pa);
+        lv.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                if(selectedUser == null)
+                    return false;
+                new getUserPosts().execute(selectedUser.getUid(),Integer.toString(offset),Integer.toString(limit));
+                return more_data_available;
+            }
+        });
 
         View IdPosts = rootView.findViewById(R.id.idposts);
         IdPosts.setVisibility(View.GONE);
@@ -83,10 +106,10 @@ public class Search extends Fragment {
             @Override
             public void onClick(View view) {
                 if(selectedUser == null){
-                    Log.v("hehe","No way");
                     return;
                 }
-                new getUserPosts().execute(selectedUser.getUid());
+                lv.setVisibility(View.VISIBLE);
+                new getUserPosts().execute(selectedUser.getUid(),Integer.toString(offset),Integer.toString(limit));
             }
         });
 
@@ -98,8 +121,12 @@ public class Search extends Fragment {
             @Override
             public void onClick(View view) {
                 ac.setText("");
-                ListView lv = (ListView) rootView.findViewById(R.id.idposts);
+                offset = 0;
+                more_data_available = true;
                 lv.setVisibility(View.GONE);
+                see_user_posts = new ArrayList<>();
+                pa = new PostsAdapter(getActivity().getApplicationContext(),R.layout.post_view,see_user_posts,false);
+                lv.setAdapter(pa);
                 selectedUser=null;
                 UserOptions.setVisibility(View.GONE);
             }
@@ -189,7 +216,7 @@ public class Search extends Fragment {
             String uid2 = strings[0];
             ServiceHandler s=new ServiceHandler();
             try{
-                msg = s.seeUserPosts(url,uid2);
+                msg = s.seeUserPosts(url,uid2,Integer.parseInt(strings[1]),Integer.parseInt(strings[2]));
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -200,11 +227,11 @@ public class Search extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             try{
-                ListView lv = (ListView) rootView.findViewById(R.id.idposts);
-                ArrayList<Posts> userPosts = new ArrayList<>();
                 JSONObject json = new JSONObject(s);
                 if(json.getBoolean("status")){
                     JSONArray j = new JSONArray(json.getString("data"));
+                    if(j.length()==0)
+                        more_data_available=false;
                     for(int i=0;i<j.length();i++){
                         JSONObject j1 = j.getJSONObject(i);
 
@@ -218,11 +245,10 @@ public class Search extends Fragment {
                         String img = null;
                         if (j1.has("image"))
                             img = j1.getString("image");
-                        userPosts.add(new Posts(j1.getString("uid"),j1.getString("text"),img,j1.getString("postid"),c));
+                        see_user_posts.add(new Posts(j1.getString("uid"),j1.getString("text"),img,j1.getString("postid"),c));
                     }
-                    PostsAdapter p = new PostsAdapter(getActivity().getApplicationContext(),R.layout.post_view, userPosts);
-                    lv.setVisibility(View.VISIBLE);
-                    lv.setAdapter(p);
+                    offset = see_user_posts.size();
+                    pa.notifyDataSetChanged();
                 }
             }
             catch (Exception e){

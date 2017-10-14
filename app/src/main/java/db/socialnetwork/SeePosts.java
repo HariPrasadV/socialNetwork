@@ -1,6 +1,7 @@
 package db.socialnetwork;
 
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,9 +26,17 @@ import java.util.ArrayList;
 public class SeePosts extends Fragment {
 
     private View rootView;
+    private ListView lv;
+    private ArrayList<Posts> see_posts;
+    private PostsAdapter pa;
+    private int offset,limit;
+    private boolean more_data_available;
 
     public SeePosts() {
         // Required empty public constructor
+        offset = 0;
+        limit = 10;
+        more_data_available = true;
     }
 
 
@@ -33,23 +44,43 @@ public class SeePosts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        offset = 0;
+        more_data_available = true;
+        if((getActivity().getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE).getInt("offset",0)!=0){
+            Log.v("Value of Offset",Integer.toString(offset));
+            offset = -1;
+            SharedPreferences.Editor e = (getActivity().getApplicationContext()).getSharedPreferences("Myprefs", MODE_PRIVATE).edit();
+            e.remove("offset");
+            e.commit();
+        }
         rootView = inflater.inflate(R.layout.fragment_see_posts, container, false);
-        new getFollowedPosts().execute();
+        lv = (ListView)rootView.findViewById(R.id.posts);
+        see_posts = new ArrayList<>();
+        pa = new PostsAdapter(getActivity().getApplicationContext(),R.layout.post_view,see_posts,true);
+        lv.setAdapter(pa);
+        lv.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                new getFollowedPosts().execute(offset,limit);
+                return more_data_available;
+            }
+        });
+        new getFollowedPosts().execute(offset,limit);
         return rootView;
     }
 
-    private class getFollowedPosts extends AsyncTask<Void, Void, String> {
+    private class getFollowedPosts extends AsyncTask<Integer, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
-        protected String doInBackground(Void... voids) {
+        protected String doInBackground(Integer... inte) {
             String url = MainActivity.BaseURL+"/SeePosts";
             ServiceHandler s = new ServiceHandler();
             String msg = "";
             try {
-                msg = s.seePosts(url);
+                msg = s.seePosts(url,inte[0],inte[1]);
                 return msg;
             } catch (Exception e) {
                 Log.v("MyUser:",e.getMessage());
@@ -63,11 +94,10 @@ public class SeePosts extends Fragment {
                 return;
             }
             try {
-                Log.v("result",result);
-                ListView myListView = (ListView)rootView.findViewById(R.id.posts);
-                ArrayList<Posts> myPostArray = new ArrayList<>();
                 JSONObject resObj = new JSONObject(result);
                 JSONArray resArray = new JSONArray(resObj.getString("data"));
+                if(resArray.length()==0)
+                    more_data_available=false;
                 for(int i=0; i<resArray.length(); i++){
                     JSONArray commentArray = new JSONArray(resArray.getJSONObject(i).getString("Comment"));
                     ArrayList<Comments> commentsList = new ArrayList<>();
@@ -90,10 +120,15 @@ public class SeePosts extends Fragment {
                             resArray.getJSONObject(i).getString("postid"),
                             commentsList
                     );
-                    myPostArray.add(p);
+                    see_posts.add(p);
                 }
-                PostsAdapter pAdapter = new PostsAdapter(getActivity().getApplicationContext(),R.layout.post_view, myPostArray);
-                myListView.setAdapter(pAdapter);
+                if(resObj.has("offset")){
+                    offset = resObj.getInt("offset")+resArray.length();
+                }
+                else{
+                    offset = see_posts.size();
+                }
+                pa.notifyDataSetChanged();
             }
             catch (Exception e){
                 e.printStackTrace();

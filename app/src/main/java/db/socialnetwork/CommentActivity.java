@@ -47,11 +47,7 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor e = (getApplicationContext()).getSharedPreferences("Myprefs", MODE_PRIVATE).edit();
-                String uid = (getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE).getString("id",null);
-                e.clear();
-                if(uid!=null){
-                    e.putString("id",uid);
-                }
+                e.remove("pid");
                 e.commit();
                 Intent nextScreen = new Intent(getApplicationContext(), Main2Activity.class);
                 nextScreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -86,13 +82,13 @@ public class CommentActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             Log.v("CommentRes",s);
             if(s.equals("Connection Error")){
-                Toast.makeText(getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(),"Network Error, Try again later",Toast.LENGTH_SHORT);
                 return;
             }
             try{
                 JSONObject json = new JSONObject(s);
                 if(json.getBoolean("status")){
-                    Toast.makeText(getApplicationContext(), "Succesfully commented", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Succesfully commented", Toast.LENGTH_SHORT).show();
                 }
             }
             catch (Exception e){

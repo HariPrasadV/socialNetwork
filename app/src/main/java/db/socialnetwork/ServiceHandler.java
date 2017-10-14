@@ -63,12 +63,12 @@ public class ServiceHandler {
         return makeServiceCall(PostMethod(params,site));
     }
 
-    public String seePosts(String url)throws Exception{
+    public String seePosts(String url,int offset,int limit)throws Exception{
+        JSONObject params = new JSONObject();
+        params.put("offset",offset);
+        params.put("limit",limit);
         URL site = new URL(url);
-        HttpURLConnection urlConnection = (HttpURLConnection) site.openConnection();
-        urlConnection.setRequestMethod("GET");
-        urlConnection.setDoOutput(true);
-        return makeServiceCall(urlConnection);
+        return makeServiceCall(PostMethod(params,site));
     }
 
     public String SearchForUserFollowUnFollow(String url,String searchTerm)throws Exception{
@@ -78,10 +78,12 @@ public class ServiceHandler {
         return makeServiceCall(PostMethod(params,site));
     }
 
-    public String seeUserPosts(String url,String uid2)throws Exception{
+    public String seeUserPosts(String url,String uid2,int offset,int limit)throws Exception{
         URL site = new URL(url);
         JSONObject params = new JSONObject();
         params.put("uid",uid2);
+        params.put("offset",offset);
+        params.put("limit",limit);
         return makeServiceCall(PostMethod(params,site));
     }
 

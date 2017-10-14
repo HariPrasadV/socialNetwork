@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 if(auth.getBoolean("status")){
                     SharedPreferences.Editor e = (getApplicationContext()).getSharedPreferences("Myprefs",MODE_PRIVATE).edit();
                     e.putString("id",auth.getString("data"));
+                    e.putInt("offset",-1);
                     e.commit();
                     Intent nextScreen = new Intent(getApplicationContext(),Main2Activity.class);
                     nextScreen.putExtra("id",auth.getString("data"));

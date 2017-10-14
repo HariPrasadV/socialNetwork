@@ -30,10 +30,12 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
 
     private ArrayList<Posts> objects;
     private Context cont;
-    public PostsAdapter(Context context, int textViewResourceId, ArrayList<Posts> objects) {
+    private boolean see_posts_or;
+    public PostsAdapter(Context context, int textViewResourceId, ArrayList<Posts> objects,Boolean b) {
         super(context, textViewResourceId, objects);
         cont=context;
         this.objects = objects;
+        see_posts_or = b;
     }
 
     @Override
@@ -56,6 +58,11 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
             final Button moreCommButton = (Button)v.findViewById(R.id.button_more);
 
             Button addComment = (Button)v.findViewById(R.id.add_comment);
+
+            if(!see_posts_or){
+                addComment.setVisibility(View.GONE);
+            }
+
             addComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -103,6 +110,7 @@ public class PostsAdapter extends ArrayAdapter<Posts> {
                         commentsV.setText(myCommentArray);
 
                         moreCommButton.setVisibility(View.VISIBLE);
+
                         moreCommButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v1) {
